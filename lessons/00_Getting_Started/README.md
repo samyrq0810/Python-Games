@@ -13,7 +13,7 @@ you will be building games using PyGame by reading and analysing existing Pygame
 
 You will see three kinds of files in these lessons:
 
-1. README.md files - README files introduce the lessons. 
+1. README.md files - README files introduce the lessons. s
 2. Jupyter Notebook files - These files have the extension '.ipynb' and are used
    to run Python code. They are rendered very nicely in GitHub and VS Code, so
    we use them for most content. They are also executable, so you can run the
