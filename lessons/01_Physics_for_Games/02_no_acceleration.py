@@ -1,4 +1,4 @@
-"""
+""".                          
 Move a square, with no acceleration
 """
 import pygame

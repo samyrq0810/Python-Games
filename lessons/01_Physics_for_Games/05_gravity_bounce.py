@@ -6,6 +6,7 @@ screen. We will need to add a check to see if the player hits the left or right
 side of the screen.
 
 """
+#####REMEMBER TO ADD MOVE LEFT RIGHT WITH XDIRECTION!!!###
 import pygame
 from dataclasses import dataclass
 
@@ -18,7 +19,7 @@ class GameSettings:
     square_color: tuple = (0, 0, 0)  # Black
     background_color: tuple = (255, 255, 255)  # White
     fps: int = 30
-    gravity: float = 60.0  # Acceleration due to gravity
+    gravity: float = 180.0  # Acceleration due to gravity
     jump_velocity_y: float = 200.0  # Initial jump velocity in y direction
     jump_velocity_x: float = 100.0  # Initial jump velocity in x direction
     d_t: float = 1.0/30  # Time step for physics calculations
@@ -49,6 +50,7 @@ running = True
 clock = pygame.time.Clock()
 
 while running:
+    keys = pygame.key.get_pressed()
 
     # Handle events, such as quitting the game
     for event in pygame.event.get():
@@ -56,7 +58,7 @@ while running:
             running = False
 
     # Continuously jump. If the square is not jumping, make it jump
-    if is_jumping is False:
+    if is_jumping is False and keys[pygame.K_SPACE] :
         # Jumping means that the square is going up. The top of the 
         # screen is y=0, and the bottom is y=screen_height. So, to go up,
         # we need to have a negative y velocity
@@ -65,6 +67,7 @@ while running:
         velocity_x = settings.jump_velocity_x * x_direction
         
         is_jumping = True
+
         
     else: # the square is jumping
         # Update square position. Gravity is always pulling the square down,
@@ -89,6 +92,17 @@ while running:
         # This way is more reliable, since it will always be 1 or -1 and direction is tied to velocity
         if velocity_x != 0:
             x_direction = int(velocity_x / abs(velocity_x))
+
+    if x_direction > 0.15 and x_direction < 0.15:
+        x_direction = 0
+    
+    if x_direction < 0.15:
+        x_direction += 0.1
+
+    if x_direction > 0.15:
+        x_direction -= 0.1
+
+    
 
     # If the square hits the top of the screen, bounce the square
     if y_pos <= 0:

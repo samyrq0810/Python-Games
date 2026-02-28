@@ -26,6 +26,7 @@ velocity = 0
 # Movement direction: 1 for right, -1 for left
 direction = 1
 
+
 # Main loop
 running = True
 
