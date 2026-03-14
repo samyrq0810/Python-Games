@@ -74,7 +74,8 @@ while running:
         
         is_jumping = True
 
-        
+    
+
     else: # the square is jumping
         # Update square position. Gravity is always pulling the square down,
         # which is the positive y direction, so we add settings.gravity to the y velocity
@@ -116,22 +117,29 @@ while running:
     if x_direction < 0.15:
         x_direction += 0.1
 
-
-    if x_direction > -0.15 and x_direction < 0.15 and velocity_y == 0:
-        is_jumping = False
     
+
+ 
 
     
 
     # If the square hits the top of the screen, bounce the square
     if y_pos <= 0:
-        -(abs(velocity_y)/velocity_y) * (abs(velocity_y)-50)
+        (abs(velocity_y)/velocity_y) * (abs(velocity_y)-50)
 
     # If the square hits the ground, stop the square from falling.
     if y_pos + settings.square_size > settings.screen_height:
         y_pos = settings.screen_height - settings.square_size
-        velocity_y = -(abs(velocity_y)/velocity_y) * (abs(velocity_y)-50)
-        #is_jumping = False
+        if keys[pygame.K_w]:
+            velocity_y = -velocity_y
+        else:
+            velocity_y = -(abs(velocity_y)/velocity_y) * (abs(velocity_y)-50)
+
+    if abs(velocity_y) < 0.2 and is_jumping == True:
+        velocity_y = 0
+        is_jumping = False
+
+
 
     # Fill the screen with background color (clears previous frame)
     screen.fill(settings.background_color)
