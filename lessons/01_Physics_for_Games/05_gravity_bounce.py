@@ -130,13 +130,10 @@ while running:
     # If the square hits the ground, stop the square from falling.
     if y_pos + settings.square_size > settings.screen_height:
         y_pos = settings.screen_height - settings.square_size
-        if keys[pygame.K_w]:
-            velocity_y = -velocity_y
-        else:
-            velocity_y = -(abs(velocity_y)/velocity_y) * (abs(velocity_y)-50)
+        velocity_y = -(abs(velocity_y)/velocity_y) * (abs(velocity_y)-50)
 
-    if abs(velocity_y) < 0.2 and is_jumping == True:
-        velocity_y = 0
+    #if abs(velocity_y) < 0.2 and is_jumping == True:
+     #   velocity_y = 0
         is_jumping = False
 
 
