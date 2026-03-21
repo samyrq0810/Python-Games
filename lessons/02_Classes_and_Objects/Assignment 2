@@ -4,22 +4,23 @@ class Person:
     """Person represents a person in our system."""
 
      # This is the initializer, it gets run when we create a new object
-    def __init__(self, name: str, age: int):
+    def __init__(self, Fname: str, Lname: str, age: int):
         """Initializes a new Person object."""
-        self.name = name
+        self.Fname = Fname
+        self.Lname = Lname
         self.age = age
 
     def say_hello(self, message: str):
         """Prints a greeting to the console."""
-        print(f"Hello, my name is {self.name} and I am {self.age} years old. {message}")
+        print(f"Hello, my name is {self.Fname} {self.Lname} and I am {self.age} years old. {message}")
         
         
 class Parent(Person):
     """Parent represents a parent in our system."""
 
-    def __init__(self, name: str, age: int, spouse=None):
+    def __init__(self, Fname: str, Lname: str, age: int, spouse=None):
         """Initializes a new Parent object."""
-        super().__init__(name, age) # Call Person.__init__ to initialize the name and age attributes
+        super().__init__(Fname, Lname, age) # Call Person.__init__ to initialize the name and age attributes
         self.children = []
         
         # Set our spose but also set the spouse's spouse to us
@@ -39,44 +40,44 @@ class Parent(Person):
         
         super().say_hello(message)
         if self.spouse:
-            print(f"My spouse is {self.spouse.name}")
+            print(f"My spouse is {self.spouse.Fname} {self.spouse.Lname}")
             
         print(f"I have {len(self.children)} children.")
 
         if len(self.children) > 0:
             print("Their names are:")
             for child in self.children:
-                print(f"  {child.name} {child.age}")
+                print(f"  {child.Fname} {child.age}")
                 
                 
 class Child(Person):
     """Child represents a child in our system."""
 
-    def __init__(self, name: str, age: int, parents: list):
+    def __init__(self, Fname: str, Lname: str, age: int, parents: list):
         """Initializes a new Child object."""
-        super().__init__(name, age)  # Call Person.__init__ to initialize the name and age attributes
+        super().__init__(Fname, Lname, age)  # Call Person.__init__ to initialize the name and age attributes
         self.parents = parents
 
     def say_hello(self, message: str):
         """Prints a greeting to the console."""
         super().say_hello(message)
-        print(f"My parents are {', '.join([parent.name for parent in self.parents])}")
+        print(f"My parents are {', '.join([parent.Fname for parent in self.parents])}")
         
         
 # Now lets make a family
-mom = Parent("Alice", 35)
-dad = Parent("Bob", 40, mom)
+dad = Parent("Abe", "Lincoln", 35)
+mom = Parent("Mary", "Lincoln", 40, dad)
 
-charlie = Child("Charlie", 10, [mom, dad])
-dahlia = Child("Dahlia", 8, [mom, dad])
+Robert = Child("Robert", "Lincoln", 10, [mom, dad])
+William = Child("William", "Lincoln", 8, [mom, dad])
 
 # Connect the children to the parents
-mom.add_child(charlie)
-mom.add_child(dahlia)
-dad.add_child(charlie)
-dad.add_child(dahlia)
+mom.add_child(Robert)
+mom.add_child(William)
+dad.add_child(Robert)
+dad.add_child(William)
 
 
 mom.say_hello("Hello!") # Call the say_hello method of the mom object
 print()
-dahlia.say_hello("Yo!")
+William.say_hello("Yo!")

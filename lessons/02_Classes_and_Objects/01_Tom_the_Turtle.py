@@ -1,5 +1,13 @@
 """ Turtle in Pygame
 
+
+
+JUST COMPLETED ASSIGNMENT 3!!!!!!!!!!
+
+
+
+
+
 We really miss the turtle module from Python's standard library. It was a great
 way to introduce programming, so let's make something similar in PyGame, using
 objects. 
@@ -40,11 +48,15 @@ def event_loop():
                 return
 
 class Turtle:
-    def __init__(self, screen, x: int, y: int):
+    def __init__(self, screen, x: int, y: int, PenDown = True):
         self.x = x
         self.y = y
         self.screen = screen
+        self.PenDown = PenDown
         self.angle = 0  # Angle in degrees, starting facing right
+
+    def SetPenDown(self, DownUp: bool):
+        self.PenDown = DownUp
 
     def forward(self, distance):
         # Calculate new position based on current angle
@@ -62,12 +74,15 @@ class Turtle:
         self.y -= dy
 
         # Draw line to the new position
-        pygame.draw.line(self.screen, black, (start_x, start_y), (self.x, self.y), 2)
+        if self.PenDown == True:
+            pygame.draw.line(self.screen, black, (start_x, start_y), (self.x, self.y), 2)
 
     def left(self, angle):
         # Turn left by adjusting the angle counterclockwise
         self.angle = (self.angle + angle) % 360
 
+    def right(self, angle):
+        self.angle = (self.angle - angle) % 360
 
 # Main loop
 
@@ -87,9 +102,14 @@ screen.fill(white)
 turtle = Turtle(screen, screen.get_width() // 2, screen.get_height() // 2)  # Start at the center of the screen
 
 # Draw a square using turtle-style commands
-for _ in range(4):
-    turtle.forward(100)  # Move forward by 100 pixels
-    turtle.left(90)  # Turn left by 90 degrees
+#for _ in range(4):
+turtle.forward(100)  # Move forward by 100 pixels
+turtle.left(90)  # Turn left by 90 degrees
+turtle.SetPenDown(False)
+turtle.left(135)
+turtle.forward(100)
+turtle.SetPenDown(True)
+turtle.forward(100)
 
 # Display the drawing
 pygame.display.flip()
