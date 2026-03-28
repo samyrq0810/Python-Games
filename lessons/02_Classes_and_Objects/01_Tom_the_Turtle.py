@@ -1,8 +1,9 @@
 """ Turtle in Pygame
 
-
+ssss
 
 JUST COMPLETED ASSIGNMENT 3!!!!!!!!!!
+and now assignment 4 is done too
 
 
 
@@ -84,6 +85,9 @@ class Turtle:
     def right(self, angle):
         self.angle = (self.angle - angle) % 360
 
+def getXY(turtle:Turtle):
+    print(f'{turtle.x}, {turtle.y}')
+
 # Main loop
 
 # Initialize Pygame
@@ -103,13 +107,17 @@ turtle = Turtle(screen, screen.get_width() // 2, screen.get_height() // 2)  # St
 
 # Draw a square using turtle-style commands
 #for _ in range(4):
+getXY(turtle)
 turtle.forward(100)  # Move forward by 100 pixels
-turtle.left(90)  # Turn left by 90 degrees
+turtle.left(90) # Turn left by 90 degrees
+getXY(turtle)
 turtle.SetPenDown(False)
 turtle.left(135)
 turtle.forward(100)
+getXY(turtle)
 turtle.SetPenDown(True)
 turtle.forward(100)
+getXY(turtle)
 
 # Display the drawing
 pygame.display.flip()

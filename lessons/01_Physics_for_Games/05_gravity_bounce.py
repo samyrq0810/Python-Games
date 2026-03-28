@@ -16,11 +16,12 @@ class GameSettings:
     screen_width: int = 500
     screen_height: int = 500
     square_size: int = 20
-    square_color: tuple = (0, 0, 0)  # Black
+    square_color1: tuple = (213, 123, 132)
+    square_color: tuple = (231, 213, 123)  # Black
     background_color: tuple = (255, 255, 255)  # White
     fps: int = 100
     gravity: float = 180.0  # Acceleration due to gravity
-    jump_velocity_y: float = 400.0  # Initial jump velocity in y direction
+    jump_velocity_y: float = 1000.0  # Initial jump velocity in y direction
     jump_velocity_x: float = 100.0  # Initial jump velocity in x direction
     d_t: float = 1.0/100  # Time step for physics calculations
 
@@ -70,7 +71,7 @@ while running:
         # we need to have a negative y velocity
         
         velocity_y = -settings.jump_velocity_y
-        velocity_x = settings.jump_velocity_x * x_direction
+        #velocity_x = settings.jump_velocity_x * x_direction
         
         is_jumping = True
 
@@ -125,7 +126,7 @@ while running:
 
     # If the square hits the top of the screen, bounce the square
     if y_pos <= 0:
-        (abs(velocity_y)/velocity_y) * (abs(velocity_y)-50)
+        velocity_y = -(abs(velocity_y)/velocity_y) * (abs(velocity_y)-50)
 
     # If the square hits the ground, stop the square from falling.
     if y_pos + settings.square_size > settings.screen_height:

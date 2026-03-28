@@ -39,7 +39,7 @@ class GameSettings:
 
     player_start_x: int = 100
     player_start_y: int = None
-
+#sssssss
     gravity: float = 200
     v_0_y: float = 0  # Initial y velocity
     v_0_x: float = 75 # Initial x velocity
