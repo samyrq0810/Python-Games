@@ -14,9 +14,9 @@ class Settings:
     PLAYER_COLOR = (0, 0, 255)
     BACKGROUND_COLOR = (255, 255, 255)
     TEXT_COLOR = (0, 0, 0)
-    FPS = 30
-    ANGLE_CHANGE = 3
-    LENGTH_CHANGE = 5
+    FPS = 750
+    ANGLE_CHANGE = 0.5
+    LENGTH_CHANGE = 0.5
     INITIAL_LENGTH = 100
     FONT_SIZE = 24
 
