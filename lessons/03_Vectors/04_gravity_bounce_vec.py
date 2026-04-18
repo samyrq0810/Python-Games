@@ -8,6 +8,7 @@ understandable, and makes it easier to add more complex features to the game.
 
 """
 import pygame
+import math
 from dataclasses import dataclass
 
 
@@ -109,7 +110,7 @@ class Player:
     
     def going_left(self):
         """Check if the player is going left"""
-        return self.vel.x < 0
+        return self.vel.x < 0 
     
     def going_right(self):
         """Check if the player is going right"""
@@ -153,6 +154,7 @@ class Player:
         if self.at_top() and self.going_up():
             self.vel.y = -self.vel.y # Bounce off the top. 
 
+
         # If the player hits one side of the screen or the other, bounce the
         # player. we are also checking if the player has a velocity going farther
         # off the screeen, because we don't want to bounce the player if it's
@@ -182,6 +184,10 @@ class Player:
         elif self.at_right():
             self.pos.x = self.game.settings.width - self.width
 
+        drag = -self.vel.x * 0.1
+
+        self.vel.x += drag
+
     def update_jump(self):
         """Handle the player's jumping logic"""
         
@@ -189,11 +195,17 @@ class Player:
         # check if the player is at the bottom. 
         if self.at_bottom():
             self.vel += self.v_jump
+###########################################################################################################
+        #Controls
+###########################################################################################################
          
+if pygame.K_UP:
+
+
+
 
     def draw(self, screen):
         pygame.draw.rect(screen, Colors.PLAYER_COLOR, (self.pos.x, self.pos.y, self.width, self.height))
-
 
 settings = GameSettings()
 game = Game(settings)
