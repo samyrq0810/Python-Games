@@ -8,7 +8,6 @@ understandable, and makes it easier to add more complex features to the game.
 
 """
 import pygame
-import math
 from dataclasses import dataclass
 
 
@@ -24,17 +23,18 @@ class Colors:
 @dataclass
 class GameSettings:
     """Settings for the game"""
-    width: int = 500
-    height: int = 500
+    width: int = 700
+    height: int = 700
     gravity: float = 0.3
     player_start_x: int = 100
     player_start_y: int = None
     player_v_y: float = 0  # Initial y velocity
-    player_v_x: float = 4  # Initial x velocity
+    player_v_x: float = 0  # Initial x velocity
     player_width: int = 20
     player_height: int = 20
     player_jump_velocity: float = 15
     frame_rate: int = 30
+
 
 
 class Game:
@@ -69,6 +69,8 @@ class Game:
             player.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(self.settings.frame_rate)
+
+    
 
         pygame.quit()
 
@@ -146,13 +148,10 @@ class Player:
     def update_v(self):
         """Update the player's velocity based on gravity and bounce on edges"""
          
-        self.vel += self.game.gravity  # Add gravity to the velocity
+        #self.vel += self.game.gravity  # Add gravity to the velocity
 
-        if self.at_bottom() and self.going_down():
-            self.vel.y = 0
-
-        if self.at_top() and self.going_up():
-            self.vel.y = -self.vel.y # Bounce off the top. 
+        if (self.at_bottom() and self.going_down()) or (self.at_top() and self.going_up()):
+            self.vel.y = ((self.vel.y / abs(self.vel.y)) * (abs(self.vel.y) * 0.8)) * -1
 
 
         # If the player hits one side of the screen or the other, bounce the
@@ -161,7 +160,7 @@ class Player:
         # already going away from the edge
         
         if (self.at_left() and self.going_left() ) or ( self.at_right() and self.going_right()):
-            self.vel.x = -self.vel.x
+            self.vel.x = ((self.vel.x / abs(self.vel.x)) * (abs(self.vel.x) * 0.8)) * -1
             
     def update_pos(self):
         """Update the player's position based on velocity"""
@@ -184,29 +183,37 @@ class Player:
         elif self.at_right():
             self.pos.x = self.game.settings.width - self.width
 
-        drag = -self.vel.x * 0.1
+       # drag = -self.vel.x * 0.1
 
-        self.vel.x += drag
+      #  self.vel.x += drag
+
 
     def update_jump(self):
         """Handle the player's jumping logic"""
-        
+        keys = pygame.key.get_pressed()
         # Notice that we've gotten rid of self.is_jumping, because we can just
-        # check if the player is at the bottom. 
-        if self.at_bottom():
-            self.vel += self.v_jump
-###########################################################################################################
-        #Controls
-###########################################################################################################
-         
-if pygame.K_UP:
+        # check if the player is at the bottom.
+        if keys[pygame.K_w] or keys[pygame.K_UP] or keys[pygame.K_SPACE]:
+            self.vel.y -= 0.5
 
+        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+            self.vel.y += 0.5
 
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+            self.vel.x += 0.5
 
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+            self.vel.x -= 0.5
 
     def draw(self, screen):
         pygame.draw.rect(screen, Colors.PLAYER_COLOR, (self.pos.x, self.pos.y, self.width, self.height))
 
+
+    
+
 settings = GameSettings()
 game = Game(settings)
 game.run()
+
+
+
