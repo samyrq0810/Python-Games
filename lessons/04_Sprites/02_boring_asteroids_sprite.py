@@ -5,8 +5,8 @@ import math
 class Settings:
     """Class to store game configuration."""
 
-    width = 800
-    height = 600
+    width = 1500
+    height = 800
     fps = 60
     triangle_size = 20
     projectile_speed = 5
@@ -32,7 +32,7 @@ class Spaceship(pygame.sprite.Sprite):
         self.angle = 0
         self.original_image = self.create_spaceship_image()
 
-        self.velocity = pygame.Vector2(0, 0)
+        self.velocity = pygame.Vector2(0, -1)
 
         # For Sprites, the image and rect attributes are part of the Sprite class
         # and are important. The image is the surface that will be drawn on the screen
@@ -96,12 +96,18 @@ class Spaceship(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE] and self.ready_to_shoot():
             self.fire_projectile()
 
+        if keys[pygame.K_UP]:
+            self.velocity += pygame.Vector2(0,-0.1)
+
+        if keys[pygame.K_DOWN]:
+            self.velocity += pygame.Vector2(0,0.1)
+
         self.image = pygame.transform.rotate(self.original_image, -self.angle)
 
         # Reassigning the rect because the image has changed.
         self.rect = self.image.get_rect(center=self.rect.center)
         
-        self.rect.center += self.velocity
+        self.rect.center += self.velocity.rotate(self.angle)
 
         # Dont forget this part! If you don't call the Sprite update method, the
         # sprite will not be drawn
