@@ -14,7 +14,7 @@ class Settings:
             'black': (0, 0, 0),
             'red': (255, 0, 0)
         }
-
+#asdf
 # Spaceship class to handle player movement and drawing
 class Spaceship:
     def __init__(self, settings):

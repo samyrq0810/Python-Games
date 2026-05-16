@@ -7,6 +7,8 @@ assets = Path(__file__).parent / "images"
 
 
 
+
+
 class Settings:
     """Class to store game configuration."""
 
@@ -16,7 +18,7 @@ class Settings:
     triangle_size = 20
     projectile_speed = 5
     projectile_size = 11
-    shoot_delay = 250  # 250 milliseconds between shots, or 4 shots per second
+    shoot_delay = 1  # 250 milliseconds between shots, or 4 shots per second
     colors = {"white": (255, 255, 255), "black": (0, 0, 0), "red": (255, 0, 0)}
 
 
@@ -239,6 +241,23 @@ if __name__ == "__main__":
     spaceship = AlienSpaceship(
         settings, position=(settings.width // 2, settings.height // 2)
     )
+
+if spaceship.rect.x >= 1500:
+    spaceship.rect.x = 0 - spaceship.rect.width
+    spaceship.velocity *= -1
+
+if spaceship.rect.x <= 0 - spaceship.rect.width:
+    spaceship.rect.x = 1500
+    spaceship.velocity *= -1
+
+if spaceship.rect.y >= 800:
+    spaceship.rect.y = 0 - spaceship.rect.height
+    spaceship.velocity *= -1
+
+if spaceship.rect.y <= 0 - spaceship.rect.height:
+    spaceship.rect.y = 800
+    spaceship.velocity *= -1
+
 
     game.add(spaceship)
 

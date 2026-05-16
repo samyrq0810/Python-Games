@@ -37,7 +37,8 @@ pygame.display.set_caption("Gravity Bounce")
 
 # Square starting position
 x_pos = 100
-y_pos = settings.screen_height - settings.square_size
+y_pos = settings.screen_height - settings.square_size - 100
+
 
 # Initial velocities  
 velocity_x = 0
