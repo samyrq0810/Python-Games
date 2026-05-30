@@ -12,13 +12,13 @@ assets = Path(__file__).parent / "images"
 class Settings:
     """Class to store game configuration."""
 
-    width = 1500
-    height = 800
+    width = 1400
+    height = 700
     fps = 60
     triangle_size = 20
     projectile_speed = 5
     projectile_size = 11
-    shoot_delay = 1  # 250 milliseconds between shots, or 4 shots per second
+    shoot_delay = 0  # 250 milliseconds between shots, or 4 shots per second
     colors = {"white": (255, 255, 255), "black": (0, 0, 0), "red": (255, 0, 0)}
 
 
@@ -86,6 +86,8 @@ class Spaceship(pygame.sprite.Sprite):
         # need to add the projectile to the group to make sure it is updated.
         self.game.add(new_projectile)
 
+    
+
 
     # The Sprite class defines an update method that is called every frame. We
     # can override this method to add our own functionality. In this case, we
@@ -120,6 +122,18 @@ class Spaceship(pygame.sprite.Sprite):
 
         # Dont forget this part! If you don't call the Sprite update method, the
         # sprite will not be drawn
+        if self.rect.x >= self.settings.width:
+            self.rect.x = 0 - self.rect.width
+
+        if self.rect.x <= 0 - self.rect.width:
+            self.rect.x = self.settings.width
+
+        if self.rect.y >= self.settings.height:
+            self.rect.y = 0 - self.rect.height
+
+        if self.rect.y <= 0 - self.rect.height:
+            self.rect.y = self.settings.height
+
         super().update()
 
     # WAIT! Where is the draw method? We don't need to define it because the
@@ -160,10 +174,30 @@ class Projectile(pygame.sprite.Sprite):
 
         # Notice that we are using the rect attribute to store the position of the projectile
         self.rect = self.image.get_rect(center=position)
+        self.teleports = 0
 
     def update(self):
         self.rect.center += self.velocity
-        
+
+        if self.teleports > 2:
+            self.kill()
+
+        if self.rect.x >= self.settings.width:
+            self.rect.x = 0 - self.rect.width
+            self.teleports += 1
+
+        if self.rect.x <= 0 - self.rect.width:
+            self.rect.x = self.settings.width
+            self.teleports += 1
+
+        if self.rect.y >= self.settings.height:
+            self.rect.y = 0 - self.rect.height
+            self.teleports += 1
+
+        if self.rect.y <= 0 - self.rect.height:
+            self.rect.y = self.settings.height
+            self.teleports += 1
+
 class AlienSpaceship(Spaceship):
     
     def create_spaceship_image(self):
@@ -229,6 +263,7 @@ class Game:
             self.draw()
             self.clock.tick(self.settings.fps)
 
+
         pygame.quit()
 
 
@@ -242,21 +277,7 @@ if __name__ == "__main__":
         settings, position=(settings.width // 2, settings.height // 2)
     )
 
-if spaceship.rect.x >= 1500:
-    spaceship.rect.x = 0 - spaceship.rect.width
-    spaceship.velocity *= -1
-
-if spaceship.rect.x <= 0 - spaceship.rect.width:
-    spaceship.rect.x = 1500
-    spaceship.velocity *= -1
-
-if spaceship.rect.y >= 800:
-    spaceship.rect.y = 0 - spaceship.rect.height
-    spaceship.velocity *= -1
-
-if spaceship.rect.y <= 0 - spaceship.rect.height:
-    spaceship.rect.y = 800
-    spaceship.velocity *= -1
+    
 
 
     game.add(spaceship)
