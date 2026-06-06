@@ -20,6 +20,7 @@ WIDTH, HEIGHT = 600, 300
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Dino Jump")
 
+
 # Colors
 BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
@@ -30,8 +31,9 @@ FPS = 60
 
 # Player attributes
 PLAYER_SIZE = 25
-
-player_speed = 5
+GRAVITY = 1
+PLAYER_JUMP = 15
+player_velocity = 0
 
 # Obstacle attributes
 OBSTACLE_WIDTH = 20
@@ -41,7 +43,6 @@ obstacle_speed = 5
 # Font
 font = pygame.font.SysFont(None, 36)
 
-
 # Define an obstacle class
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self):
@@ -50,7 +51,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.image.fill(BLACK)
         self.rect = self.image.get_rect()
         self.rect.x = WIDTH
-        self.rect.y = HEIGHT - OBSTACLE_HEIGHT - 10
+        self.rect.y = HEIGHT - OBSTACLE_HEIGHT
 
         self.explosion = pygame.image.load(images_dir / "explosion1.gif")
 
@@ -78,20 +79,36 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 50
         self.rect.y = HEIGHT - PLAYER_SIZE - 10
-        self.speed = player_speed
+        self.jump = PLAYER_JUMP
+        self.velocity = player_velocity
+        self.on_ground = True
 
     def update(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_UP]:
-            self.rect.y -= self.speed
-        if keys[pygame.K_DOWN]:
-            self.rect.y += self.speed
 
+        if self.rect.y < HEIGHT - PLAYER_SIZE:
+            self.on_ground = False
+        else:
+            self.on_ground = True
+
+        if keys[pygame.K_UP] and self.on_ground == True:
+            self.velocity += self.jump
+
+        
+        self.rect.y -= self.velocity
+
+
+        if self.rect.y < HEIGHT - PLAYER_SIZE:
+            self.velocity -= GRAVITY
+
+        if self.rect.y >= HEIGHT - PLAYER_SIZE:
+            self.velocity = 0
+        
         # Keep the player on screen
-        if self.rect.top < 0:
-            self.rect.top = 0
-        if self.rect.bottom > HEIGHT:
-            self.rect.bottom = HEIGHT
+        # if self.rect.top < 0:
+        #     self.rect.top = 0
+        # if self.rect.bottom > HEIGHT:
+        #     self.rect.bottom = HEIGHT
 
 # Create a player object
 player = Player()
